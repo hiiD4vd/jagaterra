@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Brand tokens (see build brief) — raw values live on :root so plain  */
+/* CSS can use them; @theme inline maps them onto Tailwind utilities   */
+/* (bg-ink, text-brass, font-display, …).                              */
+/* ------------------------------------------------------------------ */
+:root {
+  --bone: #efe7da;      /* warm cream — text on dark/red, light section bg */
+  --ink: #1d140f;       /* near-black brown — dark base */
+  --burgundy: #6e090d;  /* the Jagaterra logo red — solid fills (button, footer) */
+  --meat: #f2545c;      /* brightened brand red — accent TEXT that must read on dark photo */
+  --ember: #a4340f;     /* deepened brand red — accent TEXT on bone (meat fails AA there; ember is 5.6:1) */
+  --brass: #b08d4f;     /* retained only for the focus ring (contrasts on dark AND red) */
+}
+
+@theme inline {
+  --color-bone: var(--bone);
+  --color-ink: var(--ink);
+  --color-burgundy: var(--burgundy);
+  --color-meat: var(--meat);
+  --color-ember: var(--ember);
+  --color-brass: var(--brass);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  /* Fluid type scale — minor third on mobile widening toward desktop.
+     No hard font-size jumps at breakpoints; clamp() does the interpolation. */
+  --text-display: clamp(2.8rem, 8vw, 6.5rem);        /* hero h1 */
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.01em;
+  --text-h2: clamp(2rem, 5vw, 3.75rem);              /* section headings */
+  --text-h2--line-height: 1.12;
+  --text-h3: clamp(1.35rem, 2.5vw, 1.75rem);         /* card / dossier titles */
+  --text-h3--line-height: 1.3;
+  --text-label: 0.75rem;                             /* eyebrows & labels — 12px floor */
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.28em;
+}
+
+/* Smooth anchor jumps (hero CTA → gallery), disabled for reduced motion. */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bone);
+  color: var(--bone);
+}
+
+/* Visible keyboard focus everywhere. */
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--burgundy);
+  color: var(--bone);
+}
