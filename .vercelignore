@@ -1,0 +1,5 @@
+# Source master clips — only the encoded files in public/ are served.
+asset/
+
+# Local scratch / build artifacts (also covered by Vercel defaults)
+.next/
