@@ -102,7 +102,7 @@ function ProductCard({ cut, onSelect }: { cut: Cut; onSelect: () => void }) {
           alt={cut.name}
           width={640}
           height={640}
-          sizes="(max-width: 768px) 50vw, 25vw"
+          sizes="(max-width: 1024px) 100vw, 25vw"
           className="h-auto w-full transition-transform duration-500 group-hover:scale-[1.04]"
         />
       </div>
@@ -132,7 +132,7 @@ export default function CutGallerySplit() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia('(min-width: 768px)');
+    const mq = window.matchMedia('(min-width: 1024px)');
     const onMq = () => setIsDesktop(mq.matches);
     onMq();
     mq.addEventListener('change', onMq);
@@ -158,7 +158,15 @@ export default function CutGallerySplit() {
     const section = sectionRef.current;
     const grid = gridRef.current;
     const wrap = document.getElementById('pin-wrap');
-    if (!section || !grid || !wrap || !isDesktop) return;
+    if (!section || !grid || !wrap) return;
+
+    // A desktop visit can leave this inline height behind after a resize to
+    // mobile/tablet. Clear it so the next section follows the product grid.
+    if (!isDesktop) {
+      wrap.style.height = '';
+      grid.scrollTop = 0;
+      return;
+    }
 
     const setWrapHeight = () => {
       // hanya update patokan saat TIDAK ada filter (grid versi lengkap)
@@ -214,6 +222,7 @@ export default function CutGallerySplit() {
       window.removeEventListener('scroll', onScroll);
       grid.removeEventListener('wheel', onWheel);
       ro.disconnect();
+      wrap.style.height = '';
     };
   }, [isDesktop, secFilter]);
 
@@ -230,15 +239,15 @@ export default function CutGallerySplit() {
       {/* Split layout — desktop: sticky pinned; wrapper tinggi sesuai panjang grid */}
       <div className="md:relative" id="pin-wrap">
       <div
-        className="mt-12 flex w-full flex-col px-0 md:mt-16 md:h-screen md:flex-row md:sticky md:top-0"
+        className="mt-12 flex w-full flex-col px-0 md:mt-16 lg:h-screen lg:flex-row lg:sticky lg:top-0"
         id="pin-stage"
       >
-        {/* LEFT: Header + cow map — fixed, full height, ~50% width */}
+        {/* LEFT: Header + cow map — fixed, full height, ~50% width desktop; full width mobile */}
         <div
-          className="relative flex h-[50vh] w-full shrink-0 flex-col md:h-full md:w-1/2"
+          className="relative flex min-h-[60vh] w-full shrink-0 flex-col lg:h-full lg:min-h-0 lg:w-1/2"
         >
           {/* Header — sekarang di panel kiri */}
-          <div className="px-6 pt-10 md:px-10 md:pt-14">
+          <div className="px-6 pt-4 md:px-10 md:pt-6">
             <p className="mb-3 text-label font-medium uppercase tracking-[0.28em] text-burgundy">
               Koleksi
             </p>
@@ -248,32 +257,32 @@ export default function CutGallerySplit() {
             </p>
           </div>
 
-          {/* Cow map mengisi sisa tinggi */}
+          {/* Cow map — maksimalin ruang */}
           <div className="relative min-h-0 flex-1">
             <CowMap
               onHover={setSecFilter}
               onLock={setSecFilter}
             />
-            {/* featured label */}
-            <div className="pointer-events-none absolute bottom-6 left-6 z-10 md:left-10">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/50">Peta Potongan</p>
-              <p className="mt-1 font-display text-2xl text-ink md:text-3xl">
-                {secFilter ? SEC_LABEL[secFilter] : 'Seluruh Sapi'}
-              </p>
-              <p className="mt-1 text-sm text-ink/60">
-                {secFilter ? `${visible.length} produk` : 'Klik bagian sapi untuk filter'}
-              </p>
-            </div>
+          </div>
+
+          {/* Label filter — di bawah cow map, bukan overlay */}
+          <div className="shrink-0 px-6 pb-4 md:px-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink/50">Peta Potongan</p>
+            <p className="mt-1 font-display text-2xl text-ink md:text-3xl">
+              {secFilter ? SEC_LABEL[secFilter] : 'Seluruh Sapi'}
+            </p>
+            <p className="mt-1 text-sm text-ink/60">
+              {secFilter ? `${visible.length} produk` : 'Klik bagian sapi untuk filter'}
+            </p>
           </div>
         </div>
 
         {/* RIGHT: Product grid — scrollable, 2 columns, ~50% width */}
-        <div className="relative flex-1 overflow-hidden md:w-1/2">
+        <div className="relative flex-1 overflow-hidden lg:w-1/2">
           {/* Scrollable grid container */}
           <div
             ref={gridRef}
-            className="h-full overflow-y-auto px-6 py-8 md:overflow-hidden md:px-10"
-            style={{ overscrollBehavior: 'contain' }}
+            className="px-6 py-8 lg:h-full lg:overflow-hidden lg:px-10"
           >
             <div className="grid grid-cols-2 gap-6 md:gap-8">
               {visible.map((c) => (
@@ -344,9 +353,6 @@ export default function CutGallerySplit() {
           </>
         )}
       </AnimatePresence>
-
-      {/* ruang napas sebelum footer — mengikuti rhythm section (py-32 = 128px) */}
-      <div className="h-40 md:h-48" aria-hidden="true" />
     </section>
   );
 }
