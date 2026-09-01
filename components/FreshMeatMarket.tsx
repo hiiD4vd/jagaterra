@@ -151,7 +151,7 @@ export default function FreshMeatMarket() {
   .fmm .headline{
     font-family:'Oswald',sans-serif;
     font-weight:700;
-    font-size:clamp(120px,28vh,360px);
+    font-size:clamp(60px,18vw,360px);
     line-height:.9;
     letter-spacing:2px;
     color:#fff;
@@ -160,6 +160,13 @@ export default function FreshMeatMarket() {
     text-stroke:2px #fff;
     -webkit-filter:url(#roughen);
     filter:url(#roughen);
+  }
+  /* Mobile: efek torn lebih halus */
+  @media (max-width: 768px){
+    .fmm .headline{
+      -webkit-filter: url(#roughen-mobile);
+      filter: url(#roughen-mobile);
+    }
   }
 
   /* ============ FOREGROUND MEAT LAYER ============ */
@@ -173,10 +180,29 @@ export default function FreshMeatMarket() {
     z-index:10;
     margin-top:-6vh;
   }
+  /* Mobile: naikin posisi daging + kurangi efek torn */
+  @media (max-width: 768px){
+    .fmm .stage{
+      align-items: flex-start;
+      margin-top: var(--meat-y-mobile, 4vh);
+    }
+  }
   .fmm .meat-wrap{
     position:relative;
     width:min(85vw, 1200px);
     filter:drop-shadow(0 30px 40px rgba(0,0,0,.55));
+  }
+  /* Mobile: 3x lebih besar — daging keluar viewport */
+  @media (max-width: 768px){
+    .fmm{
+      overflow: visible;
+    }
+    .fmm .meat-wrap{
+      width: min(var(--meat-w-mobile, 180vw), 2200px);
+      margin-left: 50%;
+      margin-right: 0;
+      transform: translateX(-50%) translateX(var(--meat-shift-x, 0vw)) translateY(var(--meat-shift-y, 0vh));
+    }
   }
   .fmm .meat-wrap img{
     width:100%;
@@ -338,6 +364,124 @@ export default function FreshMeatMarket() {
     .fmm .badge{font-size:11px;padding:6px 12px 6px 6px;}
     .fmm .badge span.label{display:none;}
   }
+
+  /* Portrait mobile/tablet is a separate composition, not a shrunken desktop. */
+  .fmm .mobile-benefits,
+  .fmm .mobile-proof{display:none;}
+
+  @media (max-width:900px) and (orientation:portrait){
+    .fmm .hero{
+      height:100vh;
+      height:100dvh;
+      min-height:680px;
+      max-height:none;
+    }
+    .fmm .headline-wrap{
+      margin-top:clamp(34px,7dvh,66px);
+    }
+    .fmm .eyebrow{
+      font-size:clamp(20px,4.8vw,34px);
+      letter-spacing:clamp(5px,1.8vw,9px);
+    }
+    .fmm .headline{
+      font-size:clamp(68px,18vw,148px);
+      line-height:.86;
+    }
+    .fmm .stage{
+      position:absolute;
+      inset:auto 0 20dvh;
+      height:45%;
+      margin:0;
+      align-items:flex-end;
+      overflow:visible;
+    }
+    .fmm .meat-wrap{
+      width:min(300vw, 1440px);
+      margin:0 0 0 50%;
+      transform:translateX(-50%) translateY(calc(5vh + 4px)) scale(3.2);
+      transform-origin:center bottom;
+    }
+    .fmm .stage .badge{display:none;}
+    .fmm .side-stat{display:none;}
+
+    .fmm .mobile-benefits{
+      position:absolute;
+      z-index:20;
+      left:16px;
+      right:16px;
+      bottom:calc(20dvh + 108px);
+      display:grid;
+      grid-template-columns:max-content max-content;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .fmm .mobile-benefits span{
+      display:flex;
+      min-width:0;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      background:rgba(255,255,255,.09);
+      backdrop-filter:blur(8px);
+      color:rgba(255,255,255,.88);
+      padding:6px 8px;
+      font-size:clamp(8px,2.15vw,10px);
+      font-weight:500;
+      line-height:1.15;
+      text-align:center;
+    }
+    .fmm .mobile-benefits b{
+      display:grid;
+      width:16px;
+      height:16px;
+      flex:0 0 16px;
+      place-items:center;
+      border-radius:50%;
+      background:#fff;
+      color:var(--red-main);
+      font-size:10px;
+    }
+    .fmm .mobile-proof{
+      position:absolute;
+      z-index:20;
+      left:20px;
+      right:auto;
+      top:54%;
+      bottom:auto;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      color:rgba(255,255,255,.82);
+      font-size:11px;
+      line-height:1.2;
+    }
+    .fmm .mobile-proof strong{
+      color:#fff;
+      font-size:14px;
+    }
+    .fmm .wood-table{
+      height:20dvh;
+      min-height:142px;
+    }
+    .fmm .bottom-bar{
+      align-items:center;
+      flex-direction:column-reverse;
+      gap:12px;
+      padding:0 18px max(18px, env(safe-area-inset-bottom));
+    }
+    .fmm .contact{gap:8px;align-items:center;}
+    .fmm .contact-icons{gap:10px;}
+    .fmm .market-btn,
+    .fmm .market-btn img{width:58px;height:58px;}
+    .fmm .shop-btn{
+      min-height:52px;
+      min-width:190px;
+      justify-content:center;
+      padding:14px 24px;
+    }
+  }
 `}</style>
 
       {/* SVG filter untuk efek torn/rough di headline */}
@@ -345,6 +489,10 @@ export default function FreshMeatMarket() {
         <filter id="roughen" x="-20%" y="-20%" width="140%" height="140%">
           <feTurbulence type="fractalNoise" baseFrequency="0.012 0.045" numOctaves="3" seed="7" result="noise" />
           <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+        <filter id="roughen-mobile" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.045" numOctaves="3" seed="7" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
 
@@ -382,6 +530,15 @@ export default function FreshMeatMarket() {
               <span className="label">Tanpa Growth Hormone</span>
             </div>
           </div>
+        </div>
+
+        <div className="mobile-benefits" aria-label="Keunggulan Jagaterra">
+          <span><b>✓</b>Bebas Antibiotik</span>
+          <span><b>★</b>Tanpa Growth Hormone</span>
+        </div>
+        <div className="mobile-proof" aria-label="Asal produk">
+          <strong>100% Grass-Fed</strong>
+          <span>Goulburn Valley, Australia</span>
         </div>
 
         <div className="bottom-bar">

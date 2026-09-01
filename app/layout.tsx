@@ -1,7 +1,22 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Inter } from 'next/font/google';
+import { Fraunces, Inter, Oswald, Poppins } from 'next/font/google';
 import MotionProvider from '@/components/MotionProvider';
 import './globals.css';
+
+// Oswald — display condensed bold; kiblat section GRASS-FED PREMIUM.
+const oswald = Oswald({
+  subsets: ['latin'],
+  variable: '--font-oswald',
+  display: 'swap',
+});
+
+// Poppins — geometric sans untuk body/label; kiblat FMM.
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+  display: 'swap',
+});
 
 // Fraunces — a warm, characterful "old-style" serif; the go-to for artisan /
 // grass-fed food brands. Optical sizing on for large display headings.
@@ -48,7 +63,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="id" className={`${oswald.variable} ${poppins.variable} ${fraunces.variable} ${inter.variable}`}>
       <body className="bg-ink font-sans text-bone antialiased">
         <MotionProvider>{children}</MotionProvider>
       </body>

@@ -6,12 +6,12 @@
 /* (bg-ink, text-brass, font-display, …).                              */
 /* ------------------------------------------------------------------ */
 :root {
-  --bone: #efe7da;      /* warm cream — text on dark/red, light section bg */
-  --ink: #1d140f;       /* near-black brown — dark base */
-  --burgundy: #6e090d;  /* the Jagaterra logo red — solid fills (button, footer) */
-  --meat: #f2545c;      /* brightened brand red — accent TEXT that must read on dark photo */
-  --ember: #a4340f;     /* deepened brand red — accent TEXT on bone (meat fails AA there; ember is 5.6:1) */
-  --brass: #b08d4f;     /* retained only for the focus ring (contrasts on dark AND red) */
+  --bone: #efe7da; /* warm cream — text on dark/red, light section bg */
+  --ink: #1d140f; /* near-black brown — dark base */
+  --burgundy: #6e090d; /* the Jagaterra logo red — solid fills (button, footer) */
+  --meat: #f2545c; /* brightened brand red — accent TEXT that must read on dark photo */
+  --ember: #a4340f; /* deepened brand red — accent TEXT on bone (meat fails AA there; ember is 5.6:1) */
+  --brass: #b08d4f; /* retained only for the focus ring (contrasts on dark AND red) */
 }
 
 @theme inline {
@@ -22,19 +22,21 @@
   --color-ember: var(--ember);
   --color-brass: var(--brass);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans:
+    var(--font-poppins), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-oswald), var(--font-fraunces), ui-serif, Georgia, serif;
 
   /* Fluid type scale — minor third on mobile widening toward desktop.
      No hard font-size jumps at breakpoints; clamp() does the interpolation. */
-  --text-display: clamp(2.8rem, 8vw, 6.5rem);        /* hero h1 */
+  --text-display: clamp(2.8rem, 8vw, 6.5rem); /* hero h1 */
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.01em;
-  --text-h2: clamp(2rem, 5vw, 3.75rem);              /* section headings */
+  --text-h2: clamp(2rem, 5vw, 3.75rem); /* section headings */
   --text-h2--line-height: 1.12;
-  --text-h3: clamp(1.35rem, 2.5vw, 1.75rem);         /* card / dossier titles */
+  --text-h3: clamp(1.35rem, 2.5vw, 1.75rem); /* card / dossier titles */
   --text-h3--line-height: 1.3;
-  --text-label: 0.75rem;                             /* eyebrows & labels — 12px floor */
+  --text-label: 0.75rem; /* eyebrows & labels — 12px floor */
   --text-label--line-height: 1.4;
   --text-label--letter-spacing: 0.28em;
 }
@@ -64,3 +66,12 @@ body {
   background: var(--burgundy);
   color: var(--bone);
 }
+
+/* ============ KONTROL MANUAL FMM — ubah di sini, HMR aktif ============ */
+:root {
+  --meat-w-mobile: 220vw; /* lebar daging (150vw=kecil, 200vw=besar, 255vw=sangat besar) */
+  --meat-shift-x: -3vw; /* geser kiri (-) / kanan (+) — contoh: -10vw = geser kiri 10% */
+  --meat-shift-y: 22vh; /* geser atas (-) / bawah (+) — contoh: -5vh = geser atas 5% */
+  --premium-roughness-mobile: 12; /* efek torn: 0=mati, 8=halus, 18=desktop */
+}
+/* ====================================================================== */
