@@ -34,7 +34,13 @@ const inter = Inter({
   display: 'swap',
 });
 
+const siteUrl = new URL('https://jagaterra-shop.vercel.app');
+const shareTitle = 'Jagaterra — Daging Sapi Grass-Fed Premium';
+const shareDescription =
+  'Daging sapi grass-fed premium dari Australia, dikemas rapi dan dikirim segar ke rumahmu.';
+
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: 'Jagaterra: Daging Sapi Grass-Fed Segar, Diantar Hari Ini | Jabodetabek',
   description:
     'Beli daging sapi segar grass-fed Australia dari Jagaterra: dibesarkan 30 bulan tanpa hormon, dipotong halal, dikirim rantai dingin, tidak pernah beku. Steak, iga, buntut, sumsum. Pesan via WhatsApp, diantar hari ini ke seluruh Jabodetabek.',
@@ -48,12 +54,35 @@ export const metadata: Metadata = {
     'steak grass-fed',
     'Jagaterra',
   ],
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: 'Jagaterra: Daging Sapi Grass-Fed Segar, Diantar Hari Ini',
-    description:
-      'Daging sapi segar grass-fed Australia: 30 bulan tanpa hormon, halal, rantai dingin, tidak pernah beku. Diantar hari ini se-Jabodetabek.',
+    title: shareTitle,
+    description: shareDescription,
+    url: '/',
+    siteName: 'Jagaterra',
     type: 'website',
     locale: 'id_ID',
+    images: [
+      {
+        url: '/banner.png',
+        width: 1897,
+        height: 1037,
+        alt: 'Jagaterra — daging sapi grass-fed premium',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: shareTitle,
+    description: shareDescription,
+    images: [
+      {
+        url: '/banner.png',
+        alt: 'Jagaterra — daging sapi grass-fed premium',
+      },
+    ],
   },
 };
 
