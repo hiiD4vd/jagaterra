@@ -66,9 +66,10 @@ export const metadata: Metadata = {
     locale: 'id_ID',
     images: [
       {
-        url: '/banner.png',
-        width: 1897,
-        height: 1037,
+        url: '/banner-share.jpg?v=1',
+        width: 1200,
+        height: 630,
+        type: 'image/jpeg',
         alt: 'Jagaterra — daging sapi grass-fed premium',
       },
     ],
@@ -79,7 +80,7 @@ export const metadata: Metadata = {
     description: shareDescription,
     images: [
       {
-        url: '/banner.png',
+        url: '/banner-share.jpg?v=1',
         alt: 'Jagaterra — daging sapi grass-fed premium',
       },
     ],
