@@ -7,18 +7,19 @@
  */
 
 function InlineImage({ src, alt, h = 78 }: { src: string; alt: string; h?: number }) {
+  const responsiveHeight = `clamp(40px, 10vw, ${h}px)`;
+
   return (
-    <span className="mx-[0.18em] inline-block align-middle">
-      <span className="mr-[0.3em] text-[0.8em] leading-none">(</span>
-      <span className="inline-block overflow-hidden align-middle" style={{ height: h }}>
+    <span className="mx-[0.1em] inline-block align-middle sm:mx-[0.18em]">
+      <span className="mr-[0.16em] text-[0.8em] leading-none sm:mr-[0.3em]">(</span>
+      <span className="inline-block overflow-hidden align-middle" style={{ height: responsiveHeight }}>
         <img
           src={src}
           alt={alt}
           className="h-full w-auto max-w-none object-cover"
-          style={{ height: h }}
         />
       </span>
-      <span className="ml-[0.3em] text-[0.8em] leading-none">)</span>
+      <span className="ml-[0.16em] text-[0.8em] leading-none sm:ml-[0.3em]">)</span>
     </span>
   );
 }
@@ -26,7 +27,7 @@ function InlineImage({ src, alt, h = 78 }: { src: string; alt: string; h?: numbe
 export default function AboutUs() {
   return (
     <section
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-24 text-bone md:px-6 md:py-32"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-8 py-24 text-bone md:px-6 md:py-32"
       style={{
         background: `
           radial-gradient(80% 55% at 50% 0%, rgba(230,105,105,0.5) 0%, rgba(230,105,105,0) 62%),
@@ -36,7 +37,7 @@ export default function AboutUs() {
       }}
     >
       <div
-        className="w-full text-center text-xl font-normal lowercase leading-[1.55] tracking-tight sm:text-2xl md:text-[2.25rem]"
+        className="w-full text-center text-xl font-normal lowercase leading-[1.8] tracking-tight sm:text-2xl sm:leading-[1.65] md:text-[2.25rem] md:leading-[1.55]"
         style={{ maxWidth: '60rem' }}
       >
         <p className="text-center">
