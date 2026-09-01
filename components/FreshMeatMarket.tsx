@@ -545,7 +545,7 @@ export default function FreshMeatMarket() {
           <div className="contact">
             <div className="contact-label">Get in Touch:</div>
             <div className="contact-icons">
-              <a href="https://tokopedia.com" target="_blank" rel="noopener noreferrer" className="market-btn">
+              <a href="https://www.tokopedia.com/jagaterra" target="_blank" rel="noopener noreferrer" className="market-btn">
                 <img src="/tokped-logo.png" alt="Tokopedia" />
               </a>
               <a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer" className="market-btn">
