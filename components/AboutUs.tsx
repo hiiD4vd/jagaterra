@@ -51,9 +51,7 @@ export default function AboutUs() {
           <InlineImage src="/cuts/sirloin (2).png" alt="Potongan daging sapi premium Jagaterra" />{' '}
           siap dipesan. setiap pesanan dikemas dalam kemasan vacuum-sealed{' '}
           <InlineImage src="/about/vacuum-sealed-beef.png" alt="Daging sapi dalam kemasan vacuum-sealed" />{' '}
-          untuk menjaga kualitas. rantai dingin{' '}
-          <InlineImage src="/about/truk.jpg" alt="Kendaraan pengiriman berpendingin" />{' '}
-          membuat pesanan tetap segar hingga tiba.
+          untuk menjaga kualitas.
         </p>
       </div>
     </section>
