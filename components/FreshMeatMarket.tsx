@@ -236,7 +236,7 @@ export default function FreshMeatMarket() {
   }
   .fmm .badge .icon svg{width:13px;height:13px;}
   .fmm .badge-production{ left:-4%; top:38%; }
-  .fmm .badge-quality{ right:-6%; top:42%; }
+  .fmm .badge-quality{ right:-6%; top:38%; }
 
   /* ============ SIDE STATS ============ */
   .fmm .side-stat{
@@ -245,7 +245,7 @@ export default function FreshMeatMarket() {
     color:#fff;
   }
   .fmm .stat-left{ left:56px; bottom:260px; }
-  .fmm .stat-right{ right:56px; bottom:260px; text-align:right; }
+  .fmm .stat-right{ right:56px; bottom:246px; text-align:right; }
   .fmm .stat-num{
     font-family:'Poppins',sans-serif;
     font-weight:700;
@@ -316,9 +316,9 @@ export default function FreshMeatMarket() {
     background:#fff;
     color:#1a1a1a;
     border:none;
-    padding:16px 28px;
+    padding:20px 36px;
     border-radius:999px;
-    font-size:16px;
+    font-size:18px;
     font-weight:700;
     cursor:pointer;
     box-shadow:0 16px 40px rgba(0,0,0,.45);
@@ -335,6 +335,7 @@ export default function FreshMeatMarket() {
     display:flex;align-items:center;justify-content:center;
   }
   .fmm .shop-btn svg{width:14px;height:14px;}
+  .fmm .shop-btn .wa-icon{width:38px;height:38px;object-fit:contain;}
 
   /* ============ WOOD TABLE ============ */
   .fmm .wood-table{
@@ -476,10 +477,10 @@ export default function FreshMeatMarket() {
     .fmm .market-btn,
     .fmm .market-btn img{width:58px;height:58px;}
     .fmm .shop-btn{
-      min-height:52px;
-      min-width:190px;
+      min-height:64px;
+      min-width:232px;
       justify-content:center;
-      padding:14px 24px;
+      padding:17px 32px;
     }
   }
 `}</style>
@@ -542,22 +543,11 @@ export default function FreshMeatMarket() {
         </div>
 
         <div className="bottom-bar">
-          <div className="contact">
-            <div className="contact-label">Get in Touch:</div>
-            <div className="contact-icons">
-              <a href="https://www.tokopedia.com/jagaterra" target="_blank" rel="noopener noreferrer" className="market-btn">
-                <img src="/tokped-logo.png" alt="Tokopedia" />
-              </a>
-              <a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer" className="market-btn">
-                <img src="/shopee-logo.png" alt="Shopee" />
-              </a>
-            </div>
-          </div>
-
-          <a href="#" className="shop-btn">
-            Pesan Sekarang
-          </a>
-        </div>
+                  <a href="https://wa.me/6281808130070?text=Halo%20Jagaterra%2C%20saya%20mau%20pesan%20daging." target="_blank" rel="noopener noreferrer" className="shop-btn">
+                    <img src="/whatsapp.png" alt="WhatsApp" className="wa-icon" />
+                    Pesan Sekarang
+                  </a>
+                </div>
 
         <div className="wood-table"></div>
       </div>
