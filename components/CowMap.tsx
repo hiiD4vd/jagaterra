@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-// Mapping path index (data-n) -> section key. Semua 30 path interaktif.
+// Mapping path index (data-n) -> section key. Path yang tidak dicantumkan
+// tetap menggambar bentuk sapi, tetapi tidak dapat di-hover atau dipilih.
 // label pendek utk badge hover (nama bagian, bukan angka)
 export const SEC_SHORT: Record<string, string> = {
   chuck: 'Chuck', tongue: 'Lidah', round: 'Round', rib: 'Rib', sirloin: 'Sirloin',
@@ -10,7 +11,20 @@ export const SEC_SHORT: Record<string, string> = {
   tenderloin: 'Tenderloin', shank: 'Shank', tunjang: 'Kikil',
 };
 
-export const PATH2SEC: Record<number, string> = {1: "chuck", 2: "tongue", 3: "round", 4: "rib", 5: "sirloin", 6: "brisket", 7: "short-plate", 8: "flank", 9: "tenderloin", 10: "shank", 11: "sirloin", 12: "shank", 13: "shank", 14: "shank", 15: "sirloin", 16: "sirloin", 17: "rib", 18: "shank", 19: "tunjang", 20: "tunjang", 21: "tunjang", 22: "tunjang", 23: "tunjang", 24: "tunjang", 25: "tunjang", 26: "tunjang", 27: "tunjang", 28: "tunjang", 29: "tunjang", 30: "tunjang"};
+// Area tenderloin dan kikil sempit/berbentuk kaki, jadi labelnya perlu posisi
+// dan tracking khusus agar tidak bertabrakan dengan garis pembatas vector.
+const BADGE_LAYOUT: Record<string, { anchorPath: number; offsetX: number; offsetY: number; fontSize: number; letterSpacing: number }> = {
+  tenderloin: { anchorPath: 15, offsetX: 0, offsetY: 0, fontSize: 26, letterSpacing: 2 },
+  tunjang: { anchorPath: 10, offsetX: 20, offsetY: -108, fontSize: 24, letterSpacing: 2 },
+};
+
+export const PATH2SEC: Record<number, string> = {
+  1: 'chuck', 2: 'tongue', 3: 'round', 4: 'rib', 5: 'sirloin',
+  6: 'brisket', 7: 'short-plate', 8: 'flank',
+  9: 'sirloin', 10: 'tunjang', 11: 'shank', 12: 'tunjang',
+  13: 'shank', 14: 'tunjang', 15: 'tenderloin', 16: 'sirloin',
+  17: 'sirloin', 18: 'tunjang',
+};
 
 type Props = {
   onHover: (sec: string | null) => void;
@@ -39,12 +53,38 @@ export default function CowMap({ onHover, onLock }: Props) {
         perSec.set(sec, { n, x: bb.x + bb.width / 2, y: bb.y + bb.height / 2, sec, area });
       }
     });
-    setBadges([...perSec.values()]);
+    const positionedBadges = [...perSec.values()].map((badge) => {
+      const layout = BADGE_LAYOUT[badge.sec];
+      if (!layout) return badge;
+
+      const anchor = svg.querySelector(`path[data-n="${layout.anchorPath}"]`) as SVGPathElement | null;
+      if (!anchor) return badge;
+
+      const bb = anchor.getBBox();
+      return {
+        ...badge,
+        x: bb.x + bb.width / 2 + layout.offsetX,
+        y: bb.y + bb.height / 2 + layout.offsetY,
+      };
+    });
+
+    setBadges(positionedBadges);
   }, []);
 
   const shown: number | null = hot ?? lock;
+  const shownSection = shown === null ? null : PATH2SEC[shown];
+  const enabledPathSelector = Object.keys(PATH2SEC)
+    .map((n) => `.cow path[data-n="${n}"]`)
+    .join(', ');
+  const activePathSelector = shownSection
+    ? Object.entries(PATH2SEC)
+        .filter(([, sec]) => sec === shownSection)
+        .map(([n]) => `.cow path[data-n="${n}"]`)
+        .join(', ')
+    : '';
 
   function enter(n: number) {
+    if (!PATH2SEC[n]) return;
     setHot(n);
     onHover(PATH2SEC[n]);
   }
@@ -56,6 +96,7 @@ export default function CowMap({ onHover, onLock }: Props) {
   }
   function clickPath(e: React.MouseEvent, n: number) {
     e.stopPropagation();
+    if (!PATH2SEC[n]) return;
     const next = lock === n ? null : n;
     setLock(next);
     onLock(next !== null ? PATH2SEC[next] : null);
@@ -71,12 +112,17 @@ export default function CowMap({ onHover, onLock }: Props) {
       onClick={(e) => {
         const t = e.target as SVGPathElement;
         const n = t.dataset?.n;
-        if (n) { clickPath(e, Number(n)); } else { setLock(null); onLock(null); }
+        if (n) {
+          if (PATH2SEC[Number(n)]) clickPath(e, Number(n));
+        } else {
+          setLock(null);
+          onLock(null);
+        }
       }}
       onMouseOver={(e) => {
         const t = e.target as SVGPathElement;
         const n = t.dataset?.n;
-        if (!n) return;
+        if (!n || !PATH2SEC[Number(n)]) return;
         // Anti-nyasar: hanya proses kalau path ini MEMANG elemen teratas di titik kursor.
         // (SVG bertumpuk: event bisa jalan di path yang tertutup path lain — yang
         //  kelihatan mata selalu elementFromPoint.)
@@ -117,11 +163,13 @@ export default function CowMap({ onHover, onLock }: Props) {
 <path data-n="30" data-sec="tunjang" transform="translate(0,0)" fill="rgb(91,90,92)" fillOpacity="0.27451" d="M 1797.38 1309.07 C 1801.8 1310.03 1808.57 1311.3 1812.62 1312.82 L 1811.26 1313.75 C 1806.67 1313.32 1801.4 1311.59 1796.86 1310.3 L 1797.38 1309.07 z"/>
 
       <style>{`
-        .cow path { fill: #1d140f; cursor: pointer; transition: fill 0.3s ease; }
-        .cow path[data-n="${shown ?? ''}"] { fill: #c22222; fill-opacity: 1; }
+        .cow path { fill: #1d140f; cursor: default; transition: fill 0.3s ease; }
+        ${enabledPathSelector} { cursor: pointer; }
+        ${activePathSelector} { fill: #c22222; fill-opacity: 1; }
       `}</style>
       {badges.map((b) => {
         const aktif = shown !== null && PATH2SEC[shown] === b.sec;
+        const layout = BADGE_LAYOUT[b.sec];
         return (
           <text
             key={b.n}
@@ -132,9 +180,9 @@ export default function CowMap({ onHover, onLock }: Props) {
             className="pointer-events-none select-none"
             fill={aktif ? '#efe7da' : 'rgba(239,231,218,0.7)'}
             fontFamily="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif"
-            fontSize={aktif ? 40 : 34}
+            fontSize={layout?.fontSize ?? (aktif ? 40 : 34)}
             fontWeight={500}
-            letterSpacing="6"
+            letterSpacing={layout?.letterSpacing ?? 6}
           >
             {SEC_SHORT[b.sec] ?? b.n}
           </text>
