@@ -14,8 +14,8 @@ export const SEC_SHORT: Record<string, string> = {
 // Area tenderloin dan kikil sempit/berbentuk kaki, jadi labelnya perlu posisi
 // dan tracking khusus agar tidak bertabrakan dengan garis pembatas vector.
 const BADGE_LAYOUT: Record<string, { anchorPath: number; offsetX: number; offsetY: number; fontSize: number; letterSpacing: number }> = {
-  tenderloin: { anchorPath: 15, offsetX: 0, offsetY: 0, fontSize: 26, letterSpacing: 2 },
-  tunjang: { anchorPath: 10, offsetX: 20, offsetY: -108, fontSize: 24, letterSpacing: 2 },
+  tenderloin: { anchorPath: 15, offsetX: 12, offsetY: 0, fontSize: 26, letterSpacing: 2 },
+  tunjang: { anchorPath: 10, offsetX: 20, offsetY: -108, fontSize: 28, letterSpacing: 2 },
 };
 
 export const PATH2SEC: Record<number, string> = {
