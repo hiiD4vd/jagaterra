@@ -20,7 +20,7 @@ export default function SiteHeader() {
           width={226}
           height={320}
           priority
-          className="h-20 w-auto object-contain drop-shadow-[0_2px_12px_rgba(13,9,6,0.55)] md:h-24"
+          className="h-[5.5rem] w-auto object-contain drop-shadow-[0_2px_12px_rgba(13,9,6,0.55)] md:h-28"
         />
       </a>
 
